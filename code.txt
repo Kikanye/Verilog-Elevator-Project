@@ -1,0 +1,37 @@
+module elevator_control(input_floor, clock, out_request_floor);
+input [3:0] input_floor;
+input clock;
+output reg [6:0] out_request_floor;
+reg [2:0] request_floor;
+
+
+always @ (clock, input_floor)
+	begin
+	out_request_floor=7'b1111110;
+	/////if first button is pressed display 1
+		if(input_floor[0]==1 && clock==1)
+			begin
+				request_floor=3'b1;//abcdefg
+				out_request_floor=7'b1001111;//1
+			end 
+		/// if the second button is pressed show 2
+		else if (input_floor[1]==1 && clock==1)
+			begin
+				request_floor=3'b10;
+				out_request_floor=7'b0010010; //2
+			end 
+		/// if the third button is pressed, show 3
+		else if (input_floor[2]==1 && clock==1)
+			begin
+				request_floor=3'b1;
+				out_request_floor=7'b0000010; //3
+			end 
+		/// if the fourth butto is pressed, show 4
+		else if (input_floor[3]==1 && clock==1)
+			begin
+				request_floor=3'b1;
+				out_request_floor=7'b1001100; //4
+			end
+	end 
+	
+endmodule

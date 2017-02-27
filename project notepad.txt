@@ -1,0 +1,96 @@
+module elev_control (set_Val, reset, in_current_floor, clk, complete, direction, out_current_floor); 
+input [3:0]set_Val;
+input [6:0]in_current_floor;
+
+input clk;
+input reset;
+
+output reg direction; 
+output reg complete;
+output reg [6:0] out_current_floor;
+
+reg [6:0] floor_to_go ;
+
+always @ (negedge reset)
+	begin
+		/*if(set_Val1)
+			begin
+				set_Val2=0;
+				set_Val3=0;
+				set_val4=0;
+				floor_to_go=3'b1;
+		   end
+
+		else if(set_Val2)
+			begin
+				set_Val1=0;
+				set_Val3=0;
+				set_val4=0;
+				floor_to_go=3'b10;
+			end	
+
+		else if(set_Val3)
+			begin
+				set_Val1=0;
+				set_Val2=0;
+				set_val4=0;
+				floor_to_go=3'b11;
+			end
+			
+
+		else if(set_Val4)
+			begin
+				 set_Val1=0;
+				 set_Val2=0;
+				 set_val3=0;
+				 floor_to_go=3'b100;
+			end
+
+		complete=1'b0;*/
+
+		case (set_Val)
+			//
+			4'b1000:floor_to_go=7'b1001111;//1
+			4'b0100:floor_to_go=7'b0010010;//2
+			4'b0010:floor_to_go=7'b0000110;//3
+			4'b0001:floor_to_go=7'b1001100;//4
+		endcase
+	end
+		
+
+/*always @ (floor_to_go)
+	begin
+	   out_current_floor <= in_current_floor;
+	end*/
+		
+
+always @(posedge clk)
+	 begin
+		 if(!reset)
+			begin
+			 if (floor_to_go>out_current_floor)
+				 begin
+				  direction=1'b1;
+				  out_current_floor <= out_current_floor+1;
+				 end
+		 
+			 else if(floor_to_go<out_current_floor)
+				begin
+				  direction=1'b0;
+				  out_current_floor = out_current_floor-1;
+				end
+			 
+			 else if(floor_to_go == out_current_floor)
+				 begin
+					  complete=1;
+					  direction=0;
+				 end
+			 end
+			 
+			 //case (in_Current_floor)
+				//
+				
+		end
+		
+endmodule
+
