@@ -1,2 +1,2 @@
 # Verilog-Elevator-Project
-The elevator Simulator Project for Digital Logics Class
+A Simulation for an Elevator Implemented on an Altera DE2-115 board.
